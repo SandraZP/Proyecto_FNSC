@@ -66,45 +66,53 @@ class Materia_detalles extends BaseController {
 
 
     // Función Principal
-    public function index($idAsignatura=0) {
+    public function index($idAsignatura = 0) {
         if ($this->permiso) {
             $tabla_materias = new \App\Models\Tabla_materias;
-            if($tabla_materias->find($idAsignatura)==null){
-                
-                crear_mensaje("La materia que solicitaste no se encutra en la BD", "Oppss!", TOASTR_WARNING);
-            return redirect()->to(route_to("administracion_materias"));
+            if ($tabla_materias->find($idAsignatura) == null) {
+                $this->mostrarMensaje('La materia que solicitaste no se encuentra en la BD', 'Oppss!', TOASTR_WARNING, 'administracion_materias');
+            } else {
+                return $this->crear_vista($this->view, $this->cargar_datos($idAsignatura));
             }
-            else{
-                return $this->crear_vista($this->view,$this->cargar_datos($idAsignatura));
-            }
-        }
-
-         else {
-            crear_mensaje("No tienes permisos para acceder a este módulo, contacta al Administrador", "Oppss!", TOASTR_WARNING);
-            return redirect()->to(route_to("administracion_acceso"));
+        } else {
+            $this->mostrarMensaje('No tienes permisos para acceder a este módulo, contacta al Administrador', 'Oppss!', TOASTR_WARNING, 'administracion_acceso');
         }
     }
-
-    public function  actualizar($idAsignatura= 0){
-        d($idAsignatura);
+    
+    private function mostrarMensaje($mensaje, $titulo, $tipo, $rutaRedireccion) {
+        crear_mensaje($mensaje, $titulo, $tipo);
+        return redirect()->to(route_to($rutaRedireccion));
+    }
+    
+    public function actualizar($idAsignatura = 0) {
+        // Verificar si la asignatura existe en la base de datos
         $tabla_materias = new \App\Models\Tabla_materias;
-        if($tabla_materias->find($idAsignatura)!= null){
-            dd("Proceso de actualizacion");
-            $materia=array();
-            $materia["asignatura"] = $this->request->getPost("asignatura");
-            $materia["acronimo"] = $this->request->getPost("acronimo");
-            $materia["creditos"] = $this->request->getPost("creditos");
-
-      
-        }
-        else{
-            crear_mensaje("La materia que solicitaste no se encutra en la BD", "Oppss!", TOASTR_WARNING);
-          return $this->index($idAsignatura);
+        $materia = $tabla_materias->find($idAsignatura);
         
-         }
-
+        if ($materia != null) {
+            // Recopilar los datos del formulario de actualización
+            $datos_actualizados = [
+                'asignatura' => $this->request->getPost("asignatura"),
+                'acronimo' => $this->request->getPost("acronimo"),
+                'creditos' => $this->request->getPost("creditos")
+            ];
+    
+            // Actualizar los datos de la asignatura en la base de datos
+            if ($tabla_materias->update($idAsignatura, $datos_actualizados)) {
+                // Redirigir con un mensaje de éxito
+                crear_mensaje("Los datos de la materia han sido actualizados con éxito", "¡Éxito!", TOASTR_SUCCESS);
+                return redirect()->to(route_to("detalles_materia", $idAsignatura));
+            } else {
+                // Manejar el caso en el que no se pudo actualizar
+                crear_mensaje("Ocurrió un error al actualizar los datos de la materia", "Error", TOASTR_ERROR);
+                return redirect()->back()->withInput();
+            }
+        } else {
+            // Manejar el caso en el que la asignatura no existe
+            crear_mensaje("La materia que intentas actualizar no existe", "Error", TOASTR_ERROR);
+            return redirect()->to(route_to("administracion_materias"));
+        }
     }
-
     
 }
 

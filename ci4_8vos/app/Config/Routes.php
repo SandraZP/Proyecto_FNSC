@@ -3,13 +3,14 @@
 namespace Config;
 
 // Create a new instance of our RouteCollection class.
-$routes = Services::routes();
+$routes = \Config\Services::routes(); // Note the \Config\ prefix
 
 // Load the system's routing file first, so that the app and ENVIRONMENT
 // can override as needed.
 if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
     require SYSTEMPATH . 'Config/Routes.php';
 }
+
 
 /*
  * --------------------------------------------------------------------
