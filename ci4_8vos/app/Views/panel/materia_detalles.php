@@ -19,7 +19,7 @@
                 </h3>
             </div>
 
-            <?= form_open("registrar_materia", ["id" => "form-nueva-materia"]) ?>
+            <?= form_open("editar_materia/". $materia->$idAsignatura, ["id" => "form-nueva-materia"]) ?>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 text-center">

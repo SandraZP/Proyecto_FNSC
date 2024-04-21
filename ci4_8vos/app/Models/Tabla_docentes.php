@@ -1,51 +1,70 @@
 <?php
+    namespace App\Models;
+    use CodeIgniter\Model;
 
-namespace App\Models;
+    class Tabla_docentes extends Model {
+        protected $table      = 'docente';
+        protected $primaryKey = 'iddocente';
+        protected $returnType = 'object';
+        protected $allowedFields = [
+                                    'iddocente', 'numero_empleado','grado_estudios','id_usuario','idpe'   
+                                ];  
 
-use CodeIgniter\Model;
+        //============================
+        // Consultas epecificas o básicas
+        // Create Read Update Delete
+        //============================
+        public function create_data($data = array()) {
+            if (!empty($data)) {
+                return $this
+                    ->table($this->table)
+                    ->insert($data);
+            }//end if 
+            else{
+                return FALSE;
+            }//end else
+        }//end create_data
 
-class Tabla_docentes extends Model {
-    protected $table      = 'docente';
-    protected $primaryKey = 'iddocente';
-    protected $returnType = 'object';
-    protected $allowedFields = ['iddocente', 'numero_empleado', 'grado_estudios', 'id_usuario','idpe'];
+        public function get_user($contraints = array()){
+            return $this
+                ->table($this->table)
+                ->where($contraints)
+                ->get()
+                ->getRow();
+        }//get_user
 
-    // Crear una nueva asignatura
-    public function create_data($data = []) {
-        if (!empty($data)) {
-            return $this->insert($data);
-        } else {
-            return false;
+        public function get_table(){
+            return $this
+                ->table($this->table)
+                ->get()
+                ->getResult();
+        }//get_table
+
+        public function update_data($id = 0, $data = array()){
+            if (!empty($data)) {
+                return $this
+                    ->table($this->table)
+                    ->where([$this->primaryKey => $id])
+                    ->set($data)
+                    ->update();
+            }//end if
+            else{
+                return FALSE;
+            }//end else
+        }//update_data
+
+
+        public function delete_data($iddocente = 0) {
+            // Verificar si se proporcionó un ID de docente válido
+            if ($iddocente <= 0) {
+                return false; // ID no válido, no se puede eliminar
+            }
+        
+            // Intentar eliminar el registro
+            return $this->db
+                        ->table($this->table)
+                        ->where([$this->primaryKey => $iddocente])
+                        ->delete();
         }
-    }
-
-    // Obtener una asignatura por su ID
-    public function get_docente($iddocente) {
-        return $this->where($this->primaryKey, $iddocente)
-                    ->get()
-                    ->getRow();
-    }
-
-    // Obtener todas las asignaturas
-    public function get_docentes() {
-        $query = $this->findAll();
-        echo $this->getLastQuery(); // Imprime la consulta generada
-        var_dump($query); // Imprime los resultados obtenidos
-        return $query;
-    }
-    
-
-    // Actualizar datos de una asignatura
-    public function update_data($iddocente, $data = []) {
-        if (!empty($data)) {
-            return $this->update($iddocente, $data);
-        } else {
-            return false;
-        }
-    }
-
-    // Eliminar una asignatura por su ID
-    public function delete_data($iddocente) {
-        return $this->delete($iddocente);
-    }
-}
+        
+    }//end Tabla_usuarios

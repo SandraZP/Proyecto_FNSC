@@ -50,7 +50,7 @@ class Docente_detalles extends BaseController {
             ],
             [
                 'href' => '#',
-                'titulo' => 'Periodos',
+                'titulo' => 'Detalles',
             ]
         ];
 

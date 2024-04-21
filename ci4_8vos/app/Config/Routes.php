@@ -52,7 +52,7 @@ $routes->get('administracion_dashbord', 'Panel/Dashboard::index', ['as' => 'admi
 //Dashboard
 //************************************************************************************************************ */
 //----------------------------------------------USUARIOS--------------------------------------------------------/
-$routes->get('administracion_usuarios', 'Panel/Usuarios::index', ['as' => 'administracion_usuarios']);
+$routes->get('administracion_usuarios', 'Panel\Usuarios::index', ['as' => 'administracion_usuarios']);
 $routes->get('usuario_nuevo', 'Panel/Usuario_nuevo::index', ['as' => 'usuario_nuevo']);
 $routes->post('registrar_usuario', 'Panel/Usuario_nuevo::registrar', ['as' => 'registrar_usuario']);
 $routes->get('detalles_usuario/(:num)', 'Panel/Usuario_detalles::index/$1', ['as' => 'detalles_usuario']);

@@ -68,11 +68,41 @@ class Materia_detalles extends BaseController {
     // Función Principal
     public function index($idAsignatura=0) {
         if ($this->permiso) {
-            return $this->crear_vista($this->view, $this->cargar_datos());
-        } else {
+            $tabla_materias = new \App\Models\Tabla_materias;
+            if($tabla_materias->find($idAsignatura)==null){
+                
+                crear_mensaje("La materia que solicitaste no se encutra en la BD", "Oppss!", TOASTR_WARNING);
+            return redirect()->to(route_to("administracion_materias"));
+            }
+            else{
+                return $this->crear_vista($this->view,$this->cargar_datos($idAsignatura));
+            }
+        }
+
+         else {
             crear_mensaje("No tienes permisos para acceder a este módulo, contacta al Administrador", "Oppss!", TOASTR_WARNING);
             return redirect()->to(route_to("administracion_acceso"));
         }
+    }
+
+    public function  actualizar($idAsignatura= 0){
+        d($idAsignatura);
+        $tabla_materias = new \App\Models\Tabla_materias;
+        if($tabla_materias->find($idAsignatura)!= null){
+            dd("Proceso de actualizacion");
+            $materia=array();
+            $materia["asignatura"] = $this->request->getPost("asignatura");
+            $materia["acronimo"] = $this->request->getPost("acronimo");
+            $materia["creditos"] = $this->request->getPost("creditos");
+
+      
+        }
+        else{
+            crear_mensaje("La materia que solicitaste no se encutra en la BD", "Oppss!", TOASTR_WARNING);
+          return $this->index($idAsignatura);
+        
+         }
+
     }
 
     

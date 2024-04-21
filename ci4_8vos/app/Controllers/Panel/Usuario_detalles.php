@@ -127,7 +127,8 @@ class Usuario_detalles extends BaseController {
             //---------------------
             if ($tabla_usuarios->update_data($id_usuario, $usuario)) {
                 crear_mensaje("El usuario ha sido actualizado", "¡Actualización éxitosa!", TOASTR_SUCCESS);
-                return redirect()->to(route_to("administracion_usuarios"));
+                return redirect()->to(route_to("administracion_usuarios", $id_usuario));
+                
             }//ende if
             else{
                 crear_mensaje("Ocurrio un error al procesar la información al actualizar", "¡Error al Actualizar!", TOASTR_WARNING);
