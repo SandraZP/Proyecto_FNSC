@@ -26,13 +26,11 @@ class Tabla_materias extends Model {
                     ->getRow();
     }
 
-    // Obtener todas las asignaturas
-    public function get_asignaturas() {
-        $query = $this->findAll();
-        echo $this->getLastQuery(); // Imprime la consulta generada
-        var_dump($query); // Imprime los resultados obtenidos
-        return $query;
-    }
+// Obtener todas las asignaturas
+         public function get_asignaturas() {
+               return $this->findAll();
+               }
+
     
 
     // Actualizar datos de una asignatura

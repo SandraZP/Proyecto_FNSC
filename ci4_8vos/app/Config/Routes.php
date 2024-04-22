@@ -56,9 +56,9 @@ $routes->get('administracion_dashbord', 'Panel/Dashboard::index', ['as' => 'admi
 $routes->get('administracion_usuarios', 'Panel\Usuarios::index', ['as' => 'administracion_usuarios']);
 $routes->get('usuario_nuevo', 'Panel/Usuario_nuevo::index', ['as' => 'usuario_nuevo']);
 $routes->post('registrar_usuario', 'Panel/Usuario_nuevo::registrar', ['as' => 'registrar_usuario']);
-$routes->get('detalles_usuario/(:num)', 'Panel/Usuario_detalles::index/$1', ['as' => 'detalles_usuario']);
+$routes->get('detalles_usuario/(:num)', 'Panel\Usuario_detalles::index/$1', ['as' => 'detalles_usuario']);
 
-$routes->post('editar_usuario/(:num)', 'Panel/Usuario_detalles::actualizar/$1', ['as' => 'editar_usuario']);
+$routes->post('editar_usuario/(:num)', 'Panel\Usuario_detalles::actualizar/$1', ['as' => 'editar_usuario']);
 $routes->get('estatus_usuario/(:num)/(:num)', 'Panel/Usuarios::estatus/$1/$2', ['as' => 'estatus_usuario']);
 $routes->get('eliminar_usuario/(:num)', 'Panel/Usuarios::eliminar/$1', ['as' => 'eliminar_usuario']);
 //=============================================================================================================/
@@ -83,9 +83,9 @@ $routes->get('eliminar_docente/(:num)', 'Panel/Docentes::eliminar/$1', ['as' => 
 $routes->get('administracion_materias', 'Panel/Materias::index', ['as' => 'administracion_materias']);
 $routes->get('materia_nueva', 'Panel/Materia_nueva::index', ['as' => 'materia_nueva']);
 $routes->post('registrar_materia', 'Panel/Materia_nueva::registrar', ['as' => 'registrar_materia']);
-$routes->get('detalles_materia/(:num)', 'Panel/Materia_detalles::index/$1', ['as' => 'detalles_materia']);
+$routes->get('detalles_materia/(:num)', 'Panel\Materia_detalles::index/$1', ['as' => 'detalles_materia']);
 
-$routes->post('editar_materia/(:num)', 'Panel/Materia_detalles::actualizar/$1', ['as' => 'editar_materia']);
+$routes->post('editar_materia/(:num)', 'Panel\Materia_detalles::actualizar/$1', ['as' => 'editar_materia']);
 $routes->get('estatus_materia/(:num)/(:num)', 'Panel/Materias::estatus/$1/$2', ['as' => 'estatus_materia']);
 $routes->get('eliminar_materia/(:num)', 'Panel/Materias::eliminar/$1', ['as' => 'eliminar_materia']);
 //============================================================================================================/

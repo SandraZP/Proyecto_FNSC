@@ -19,20 +19,8 @@
                 </h3>
             </div>
 
-            <?= form_open("editar_materia/". $materia->$idAsignatura, ["id" => "form-nueva-materia"]) ?>
+            <?= form_open("editar_materia/". $materia->idAsignatura, ["id" => "form-nueva-materia"]) ?>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <?= img([
-                                'src'    => base_url(RECURSOS_PANEL_IMG_PROFILES_USER."usuario.png"),
-                                'alt'    => 'imagen_perfil',
-                                'class'  => 'avatar-img rounded-circle',
-                                'width'  => '150px',
-                                'style'  => 'margin-bottom: 15px;',
-                            ]) ?>
-                        </div>
-                    </div>
-
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -42,7 +30,7 @@
                                     "type" => "text",
                                     "id" => "asignatura",
                                     "placeholder" => "Asignatura",
-                                    "value" => set_value("asignatura"),
+                                    "value" => $materia->asignatura,
                                     "name" => "asignatura",
                                     "required" => TRUE
                                 ]) ?>
@@ -59,7 +47,7 @@
                                     "type" => "text",
                                     "id" => "acronimo",
                                     "placeholder" => "Acrónimo",
-                                    "value" => set_value("acronimo"),
+                                    "value" => $materia->acronimo,
                                     "name" => "acronimo",
                                     "required" => TRUE
                                 ]) ?>
@@ -74,7 +62,7 @@
                                     "type" => "number",
                                     "id" => "creditos",
                                     "placeholder" => "Créditos",
-                                    "value" => set_value("creditos"),
+                                    "value" => $materia->creditos,
                                     "name" => "creditos",
                                     "required" => TRUE
                                 ]) ?>
@@ -87,7 +75,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    <?= form_submit('btn-enviar', 'Registrar', ["class" => "btn btn-primary"]) ?>
+                    <?= form_submit('btn-actualizar', 'Registrar', ["class" => "btn btn-primary"]) ?>
                     <a href="<?= route_to("administracion_materias") ?>" class="btn btn-danger">Regresar</a>
                 </div>
             <?= form_close() ?>

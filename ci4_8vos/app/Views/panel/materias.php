@@ -7,7 +7,7 @@
 <link rel="stylesheet"
     href="<?= base_url(RECURSOS_PANEL_PLUGINS.'datatables-responsive/css/responsive.bootstrap4.min.css')?>">
 <?= $this->endSection() ?>
-<!-- End sección de css -->
+<!-- End sección de css --> 
 
 <!-- Sección de contenido -->
 <?= $this->section('contenido') ?>

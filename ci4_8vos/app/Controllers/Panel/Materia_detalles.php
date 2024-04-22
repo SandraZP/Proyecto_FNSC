@@ -27,7 +27,7 @@ class Materia_detalles extends BaseController {
         $this->session->tarea_actual = TAREA_MATERIAS;
     }
 
-    private function cargar_datos() {
+    private function cargar_datos($idAsignatura=0) {
         $datos = [];
 
         // Configuración básica
@@ -43,47 +43,51 @@ class Materia_detalles extends BaseController {
             $this->session->imagen_usuario;
 
         // Breadcrumb
-        $breadcrumb = [
-            [
+        $breadcrumb = array(
+            array(
                 'href' => route_to("administracion_materias"),
                 'titulo' => 'Materias',
-            ],
-            [
+            ),
+            array(
                 'href' => '#',
                 'titulo' => 'Detalles',
-            ]
-        ];
+            )
+        );
 
         $datos['breadcrumb_panel'] = breadcrumb_panel($datos['titulo_pagina'], $breadcrumb);
+
+        // Obtener la información de la materia
+        $tabla_materias = new \App\Models\Tabla_materias;
+        $materia = $tabla_materias->find($idAsignatura);
+
+        // Agregar la materia a los datos
+        $datos['materia'] = $materia;
 
         return $datos;
     }
 
-    private function crear_vista($nombre_vista = '', $contenido = array()){
+    private function crear_vista($nombre_vista = '', $contenido = array()) {
         $contenido["menu_lateral"] = crear_menu_panel($this->session->tarea_actual, $this->session->rol_actual);
         return view($nombre_vista, $contenido);
-    }//end crear_vista
-
+    }
 
     // Función Principal
     public function index($idAsignatura = 0) {
         if ($this->permiso) {
             $tabla_materias = new \App\Models\Tabla_materias;
-            if ($tabla_materias->find($idAsignatura) == null) {
-                $this->mostrarMensaje('La materia que solicitaste no se encuentra en la BD', 'Oppss!', TOASTR_WARNING, 'administracion_materias');
+            $materia = $tabla_materias->find($idAsignatura);
+            if ($materia == null) {
+                crear_mensaje("La materia que solicitaste no se encuentra en la BD", "Oppss!", TOASTR_WARNING);
+                return redirect()->to(route_to("administracion_materias"));
             } else {
                 return $this->crear_vista($this->view, $this->cargar_datos($idAsignatura));
             }
         } else {
-            $this->mostrarMensaje('No tienes permisos para acceder a este módulo, contacta al Administrador', 'Oppss!', TOASTR_WARNING, 'administracion_acceso');
+            crear_mensaje("No tienes permisos para acceder a este módulo, contacta al Administrador", "Oppss!", TOASTR_WARNING);
+            return redirect()->to(route_to("administracion_acceso"));
         }
     }
-    
-    private function mostrarMensaje($mensaje, $titulo, $tipo, $rutaRedireccion) {
-        crear_mensaje($mensaje, $titulo, $tipo);
-        return redirect()->to(route_to($rutaRedireccion));
-    }
-    
+
     public function actualizar($idAsignatura = 0) {
         // Verificar si la asignatura existe en la base de datos
         $tabla_materias = new \App\Models\Tabla_materias;
@@ -113,8 +117,4 @@ class Materia_detalles extends BaseController {
             return redirect()->to(route_to("administracion_materias"));
         }
     }
-    
 }
-
-
-
